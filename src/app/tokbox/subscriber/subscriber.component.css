@@ -1,0 +1,13 @@
+.subscriber {
+    position: absolute;
+    top: 0;
+    width: 100% !important;
+    height: 100% !important;
+    z-index: 1;
+}
+
+.subscriber.changed {
+    width: 280px !important;
+    height: 180px !important;
+    top: calc(100vh - 180px);
+}

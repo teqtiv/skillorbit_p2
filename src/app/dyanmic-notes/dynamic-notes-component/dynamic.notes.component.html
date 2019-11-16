@@ -1,0 +1,135 @@
+<div id="container">
+    <!--Top Bar -->
+    <div *ngIf="data && !data.isRadiologySession" id="topbar">
+        <table>
+            <tr>
+                <th>Heart Rate:</th>
+                <td>
+                    {{ patientInfo.heartRate ? patientInfo.heartRate : 'N/A' }}
+                </td>
+                <th>Blood Pressure:</th>
+                <td>
+                    {{
+                        patientInfo.topBloodPressure
+                            ? patientInfo.topBloodPressure +
+                              '/' +
+                              patientInfo.bottomBloodPressure
+                            : 'N/A'
+                    }}
+                </td>
+                <th>Temperature:</th>
+                <td>
+                    {{
+                        patientInfo.temperature
+                            ? patientInfo.temperature
+                            : 'N/A'
+                    }}
+                </td>
+                <th>O<span style="font-size: 0.8em;">2</span> Saturation:</th>
+                <td>
+                    {{
+                        patientInfo.o2Saturation
+                            ? patientInfo.o2Saturation
+                            : 'N/A'
+                    }}
+                </td>
+                <th>Handedness:</th>
+                <td>
+                    {{
+                        patientInfo.handedness ? patientInfo.handedness : 'N/A'
+                    }}
+                </td>
+            </tr>
+            <tr>
+                <th colspan="2">
+                    <label>Encounter type:</label>
+                </th>
+                <td colspan="6">
+                    <select class="form-control" [(ngModel)]="encounterType" style="width: 80%;" [disabled]="signbtn"
+                        (ngModelChange)="encounterTypeChange(encounterType)">
+                        <option *ngFor="let encounters of encounters" [ngValue]="encounters">{{ encounters }}</option>
+                    </select>
+                </td>
+                <td colspan="4">
+                    <button  style="float: right; margin-right: 20px;" id="btnfilter" 
+                        (click)="viewPdf()"  mat-raised-button>
+                        View PDF
+                    </button>
+                    <button style="float: right; margin-right: 20px;" id="btnfilter" [disabled]="signbtn"
+                        (click)="signConfirmation()" mat-raised-button>
+                        Sign
+                    </button>
+                    <button style="float: right; margin-right: 20px;" id="btnfilter" [disabled]="signbtn"
+                        (click)="save(false)" mat-raised-button>
+                        Save
+                    </button>
+
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div *ngIf="data && data.isRadiologySession" id="topbar-radiology">
+        <div style="float: left; margin: 7px 7px 0px 0px;">
+            <select class="form-control" placeholder="Select" [(ngModel)]="selectedModalitySubtype"
+                style="width: 300px;" [disabled]="selectedModalitySubtype != 0 && signbtn"
+                (ngModelChange)="modalitySubtypeChange(selectedModalitySubtype)">
+                <option value="0" disabled selected hidden>Please Select</option>
+                <!-- <option  [ngValue]="modalitySubtype">Select</option> -->
+                <option *ngFor="let modalitySubtype of modalitySubtype" [ngValue]="modalitySubtype.id">
+                    {{ modalitySubtype.name }}</option>
+            </select>
+        </div>
+        <div style="float: right; margin: 7px 7px 0px 0px;">
+            <button style="float: right; margin-right: 20px;" id="btnfilter" (click)="viewPdf()" 
+                mat-raised-button>
+                View PDF
+            </button>
+            <button style="float: right; margin-right: 20px;" id="btnfilter" [disabled]="signbtn"
+                (click)="signConfirmation()" mat-raised-button>
+                Sign
+            </button>
+            <button style="float: right; margin-right: 20px;" id="btnfilter" [disabled]="signbtn" (click)="save(false)"
+                mat-raised-button>
+                Save
+            </button>
+
+        </div>
+
+    </div>
+    <!-- <div id="AddendemBox" *ngIf="matselected == 3">
+                <textarea id="textarea"  maxlength="250" placeholder="Write remarks..."></textarea>
+        </div> -->
+    <!--Side Barr (Display Sections)-->
+
+    <div id="sidebar" [class]="
+            data && data.isRadiologySession
+                ? 'sidebar-radiology notesSidebar'
+                : 'sidebar notesSidebar'
+        ">
+        <ul>
+            <li *ngFor="let section of sections" class="sidebarselect" [ngClass]="isSelected(section)"
+                (click)="changeSection(section)">
+                {{ section.name }}
+            </li>
+        </ul>
+    </div>
+
+    <!--Display Selected Section Details-->
+    <div id="inercontainer" [class]="
+            data && data.isRadiologySession
+                ? 'inercontainer-radiology'
+                : 'inercontainer'
+        ">
+        <div *ngIf="showloader" id="Loadingpage" style="margin-top: 15vh;">
+            <div class="text-center">
+                <div class="ptl pbm">
+                    <span class="vm-loader"></span>
+                </div>
+                <!-- <div class="pts loading-txt">Please Wait...</div> -->
+            </div>
+        </div>
+        <div [style.visibility]="showloader ? 'hidden' : 'visible'">
+            <form-section [sectionData]="selectedSection" (onDataReceived)="sectionDataReceived($event)"></form-section>
+        </div>
+    </div>
+</div>

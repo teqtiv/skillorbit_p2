@@ -1,0 +1,106 @@
+<mat-card class="example-card">
+  <mat-card-header>
+    <mat-card-title><h5>Your Feedback</h5></mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <table class="table table-borderless table-condensed">
+      <thead>
+        <tr>
+          <th scope="col"></th>
+          <th scope="col" *ngFor="let choice of choices">
+            {{ choice }}
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+            I was able to connect to consult easily
+          </td>
+          <td [attr.colspan]="choices.length" class="survey-radio-col">
+            <mat-radio-group class="example-radio-group">
+              <mat-radio-button
+                class="example-radio-button radio-survey"
+                *ngFor="let choice of choices; let i = index"
+                [value]="choice"
+                [attr.data-index]="i"
+              >
+              </mat-radio-button>
+            </mat-radio-group>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            I was able to communicate with the patient with ease
+          </td>
+          <td [attr.colspan]="choices.length" class="survey-radio-col">
+            <mat-radio-group class="example-radio-group">
+              <mat-radio-button
+                class="example-radio-button radio-survey"
+                *ngFor="let choice of choices; let i = index"
+                [value]="choice"
+                [attr.data-index]="i"
+              >
+              </mat-radio-button>
+            </mat-radio-group>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Audio quality was satisfactory
+          </td>
+          <td [attr.colspan]="choices.length" class="survey-radio-col">
+            <mat-radio-group class="example-radio-group">
+              <mat-radio-button
+                class="example-radio-button radio-survey"
+                *ngFor="let choice of choices; let i = index"
+                [value]="choice"
+                [attr.data-index]="i"
+              >
+              </mat-radio-button>
+            </mat-radio-group>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Video quality was satisfactory
+          </td>
+          <td [attr.colspan]="choices.length" class="survey-radio-col">
+            <mat-radio-group class="example-radio-group">
+              <mat-radio-button
+                class="example-radio-button radio-survey"
+                *ngFor="let choice of choices; let i = index"
+                [value]="choice"
+                [attr.data-index]="i"
+              >
+              </mat-radio-button>
+            </mat-radio-group>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <form class="example-form">
+      <mat-form-field class="example-full-width">
+        <input
+          matInput
+          #message
+          maxlength="256"
+          placeholder="Please provide any other comments you wish to share"
+        />
+        <mat-hint align="end">{{ message.value.length }} / 256</mat-hint>
+      </mat-form-field>
+    </form>
+  </mat-card-content>
+  <mat-card-actions>
+    <button
+      class="mat-primary pull-right"
+      mat-button
+      (click)="redirectToHome()"
+    >
+      Submit
+    </button>
+    <button class="pull-right" mat-button (click)="redirectToHome()">
+      Skip
+    </button>
+  </mat-card-actions>
+</mat-card>
